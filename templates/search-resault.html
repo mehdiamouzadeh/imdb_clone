@@ -32,7 +32,9 @@
           </div>
         </div>
         {% endfor %}
-
+        <div class="col s12 m12 center-align">
+          <a href="{% url 'paginate' query page_number %}" class="waves-effect waves-light btn"><i class="material-icons left">add</i>Load more</a>
+        </div>
         
       </div>
       {% endblock %}

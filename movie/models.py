@@ -1,5 +1,8 @@
 from django.db import models
 from actor.models import Actor
+import requests
+from io import BytesIO
+from django.core import files
 # Create your models here.
 class Genre(models.Model):
     title = models.CharField(max_length=25)
@@ -30,10 +33,10 @@ class Movie(models.Model):
     Genre = models.ManyToManyField(Genre,blank=True) 
     Director = models.CharField(max_length=100,blank=True)
     Writer = models.CharField(max_length=300,blank=True)
-    Runtime = models.CharField(max_length=25,blank=True)
+    # Runtime = models.CharField(max_length=25,blank=True)
     Actors = models.ManyToManyField(Actor,blank=True)
     Plot = models.CharField(max_length=900,blank=True)
-    Language =models.CharField(max_length=300.blank=True)
+    Language =models.CharField(max_length=300,blank=True)
     Country =models.CharField(max_length=100,blank=True)
     Awards =models.CharField(max_length=250,blank=True)
     Poster = models.ImageField(upload_to = 'movies',blank=True)
@@ -49,5 +52,19 @@ class Movie(models.Model):
     Production = models.CharField(max_length=100,blank=True)
     Website = models.CharField(max_length=150,blank=True)
     totalSeasons = models.CharField(max_length=3,blank=True)
+
+    def __str__(self):
+        return self.Title
+
+    def save(self,*args,**kwargs):
+        if self.Poster == " " and self.Poster_url != " ":
+            resp = requests.get(self.Poster_url)
+            pb = BytesIO()
+            pb.write(resp.content)
+            pb.flush()
+            file_name = self.Poster_url.split('/')[-1] 
+            self.Poster.save(file_name,files.File(pb),save=False)
+
+        return super().save(*args,**kwargs)       
     
 
