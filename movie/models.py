@@ -1,12 +1,17 @@
 from django.db import models
 from actor.models import Actor
 import requests
+from django.utils.text import slugify
 from io import BytesIO
 from django.core import files
+from django.urls import reverse
 # Create your models here.
 class Genre(models.Model):
     title = models.CharField(max_length=25)
     slug = models.SlugField(null=False,unique=True)
+
+    def get_absolute_url(self):
+        return reverse("genres",args=[self.slug])
 
     def __str__(self):
         return self.title
@@ -39,7 +44,7 @@ class Movie(models.Model):
     Language =models.CharField(max_length=300,blank=True)
     Country =models.CharField(max_length=100,blank=True)
     Awards =models.CharField(max_length=250,blank=True)
-    Poster = models.ImageField(upload_to = 'movies',blank=True)
+    Poster = models.ImageField(upload_to='movies', blank=True)
     Poster_url=models.URLField(blank=True)
     Ratings = models.ManyToManyField(Rating,blank=True)
     Metascore =models.CharField(max_length=5,blank=True)
@@ -56,15 +61,15 @@ class Movie(models.Model):
     def __str__(self):
         return self.Title
 
-    def save(self,*args,**kwargs):
-        if self.Poster == " " and self.Poster_url != " ":
-            resp = requests.get(self.Poster_url)
-            pb = BytesIO()
-            pb.write(resp.content)
-            pb.flush()
-            file_name = self.Poster_url.split('/')[-1] 
-            self.Poster.save(file_name,files.File(pb),save=False)
+    def save(self, *args, **kwargs):
+	    if self.Poster == '' and self.Poster_url !='':
+		    resp = requests.get(self.Poster_url)
+		    pb = BytesIO()
+		    pb.write(resp.content)
+		    pb.flush()
+		    file_name = self.Poster_url.split("/")[-1]
+		    self.Poster.save(file_name, files.File(pb), save=False)
 
-        return super().save(*args,**kwargs)       
+	    return super().save(*args, **kwargs)       
     
 
