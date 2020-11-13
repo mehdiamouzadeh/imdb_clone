@@ -12,6 +12,7 @@ class Genre(models.Model):
 
     def get_absolute_url(self):
         return reverse("genres",args=[self.slug])
+    
 
     def __str__(self):
         return self.title
@@ -60,7 +61,7 @@ class Movie(models.Model):
 
     def __str__(self):
         return self.Title
-
+    
     def save(self, *args, **kwargs):
 	    if self.Poster == '' and self.Poster_url !='':
 		    resp = requests.get(self.Poster_url)
@@ -70,6 +71,7 @@ class Movie(models.Model):
 		    file_name = self.Poster_url.split("/")[-1]
 		    self.Poster.save(file_name, files.File(pb), save=False)
 
-	    return super().save(*args, **kwargs)       
+	    return super().save(*args, **kwargs)
+          
     
 

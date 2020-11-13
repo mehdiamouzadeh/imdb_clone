@@ -68,3 +68,7 @@ footer.page-footer {
   right: 35%;
   top: 20%;
 }
+
+.blur-bg{
+  filter: blur(4px);
+}

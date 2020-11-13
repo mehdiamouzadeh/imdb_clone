@@ -1,7 +1,5 @@
-
-
-  {% extends 'base.html' %}
-  {% load static %}
+{% extends 'base.html' %}
+{% load static %}
   
 {% block content %}
 
@@ -13,8 +11,6 @@
 
               {% if our_db is True %}
               <img src="{{ movie_data.Poster.url }}">
-              <!-- {% elif movie_data.Poster == 'N/A' %}
-                <img src="{% static 'img/no_poster.jpg' %}"> -->
               {% else %}
               <img src="{{ movie_data.Poster }}">
               {% endif %}
@@ -40,7 +36,7 @@
                 <p>Director: <b>{{movie_data.Director}}</b></p>
                 <p>Writer: <b>{{movie_data.Writer}}</b></p>
                 {% if our_db is True %}
-                <p>Actors: {% for actor in movie_data.Actors.all %} <b>{{actor}},</b></p>{% endfor %}
+                <p>Actors: {% for actor in movie_data.Actors.all %} <a href="{{actor.get_absolute_url}}"><b>{{actor}},</b></a>{% endfor %}</p>
                 {%else%}
                 <p>Actors: <b>{{movie_data.Actors}},</b></p>
                 {% endif %}
@@ -56,27 +52,27 @@
                     <p><b>8 / 10 - Very good</b>by <b>100</b> people </p>
                   </li>
                   {% if our_db is True %}
-                  {% for movie in movie_data.Ratings.all %}
-                  {% if movie.source == 'Interner Movie Database'%}
-                  <li class="collection-item avatar">
-                    <img src="{%static 'img/icons/imdb_icon.png'%}" alt="" class="circle">
-                    <span class="title">{{movie.source}}</span>
-                    <p><b>{{movie.rating}}</b> </p>
-                  </li>
-                  {% elif movie.source == 'Rotten Tomatoes' %}
-                  <li class="collection-item avatar">
-                    <img src="{%static 'img/icons/rt_icon.png'%}" alt="" class="circle">
-                    <span class="title">{{movie.source}}</span>
-                    <p><b>{{movie.rating}}</b> </p>
-                  </li>
-                  {% else %}
-                  <li class="collection-item avatar">
-                    <img src="{%static 'img/icons/meta_icon.png'%}" alt="" class="circle">
-                    <span class="title">{{movie.source}}</span>
-                    <p><b>{{movie.rating}}</b> </p>
-                  </li>
-                  {% endif %}
-                  {% endfor %}
+                    {% for movie in movie_data.Ratings.all %}
+                      {% if movie.source == 'Internet Movie Database'%}
+                        <li class="collection-item avatar">
+                          <img src="{%static 'img/icons/imdb_icon.png'%}" alt="" class="circle">
+                          <span class="title">{{movie.source}}</span>
+                          <p><b>{{movie.rating}}</b> </p>
+                        </li>
+                      {% elif movie.source == 'Rotten Tomatoes' %}
+                        <li class="collection-item avatar">
+                          <img src="{%static 'img/icons/rt_icon.png'%}" alt="" class="circle">
+                          <span class="title">{{movie.source}}</span>
+                          <p><b>{{movie.rating}}</b> </p>
+                        </li>
+                      {% else %}
+                        <li class="collection-item avatar">
+                          <img src="{%static 'img/icons/meta_icon.png'%}" alt="" class="circle">
+                          <span class="title">{{movie.source}}</span>
+                          <p><b>{{movie.rating}}</b> </p>
+                        </li>
+                      {% endif %}
+                    {% endfor %}
                   {% else %}
                   <li class="collection-item avatar">
                     <img src="{%static 'img/icons/imdb_icon.png'%}" alt="" class="circle">
@@ -95,10 +91,10 @@
                   </li>
                   {% endif %}
                 </ul>  
-                <div class="divider"></div>
+                <div class="divider"></div><br>
                 <p>Box Office: <b>{{movie_data.BoxOffice}}</b></p>
                 <p>imdb Votes: <b>{{movie_data.imdbVotes}}</b></p>
-                <p>Production: <b>{{movie_data.Production}}</b></p>
+                <p>Production: <b>{{movie_data.Production}}</b></p><br>
                 <a class="waves-effect waves-light btn"><i class="material-icons left">star</i>Rated</a>
                 <a class="waves-effect waves-light btn"><i class="material-icons left">playlist_add</i>Whatchlist</a>
                 <a class="waves-effect waves-light btn"><i class="material-icons left">playlist_add_checked</i>whatch</a>
