@@ -15,7 +15,6 @@ Install virtualenv
 $ virtualenv venv
 $ activate env
 $ venv\Scripts\activate.bat
-$ venv\Scripts\activate.bat
 ```
 Install django
 
