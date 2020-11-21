@@ -5,7 +5,7 @@
 {% block content %}
 <div class="row center-align">
     <form class="col s12" method="POST" role="form" action="">
-        <h3>Login</h3>
+        <h3>Signup</h3>
         {% csrf_token %}
         <div class="row">
             <div class="input-field col s12">
@@ -18,6 +18,18 @@
             <div class="input-field col s12">
                 {{ form.email }}
                 <label for="email">Email</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                {{ form.first_name }}	
+            <label for="first_name">First name</label>		
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                {{ form.last_name }}	
+            <label for="last_name">Last name</label>		
             </div>
         </div>
         <div class="row">
