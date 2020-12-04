@@ -22,15 +22,23 @@
 	<div class="row">
 		<div class="input-field col s6">
 		<i class="material-icons prefix">account_circle</i>
-			{{ form.first_name }}	
+			{{ userprofile_form.first_name }}	
 		<label for="first_name">First name</label>		
 		</div>
 	</div>
 	<div class="row">
 		<div class="input-field col s6">
-		<i class="material-icons prefix">account_circle</i>
-			{{ form.last_name }}	
-		<label for="last_name">Last name</label>		
+			<i class="material-icons prefix">account_circle</i>
+
+			{{ userprofile_form.last_name }}	
+		<label for="last_name">Last name</label>
+		</div>
+	</div>
+	<div class="row">
+		<div class="input-field col s12">
+			
+			{{ userprofile_form.email }}	
+		<label for="email">Email</label>
 		</div>
 	</div>
 	<div class="row">
@@ -53,10 +61,10 @@
 	</div>
 
 
-	{% if form.errors %}
+	{% if form.errors or userprofile_form %}
 	<div class="row">
 		<div class="col s12">
-			<span style="color: red; font-weight: bold;">{{ form.errors }}</span>
+			<span style="color: red; font-weight: bold;">{{ form.errors }} {{userprofile_form.errors}}</span>
 		</div>	
 	</div>
 	{% endif %}

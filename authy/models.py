@@ -1,8 +1,11 @@
 from django.db import models
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+User = get_user_model()
 from movie.models import Movie
 from django.db.models.signals import post_save
 from django.urls import path
+# from django.conf import settings 
 
 from PIL import Image
 from django.conf import settings
@@ -19,6 +22,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE,related_name='profile')
     first_name = models.CharField(max_length=50,null=True,blank=True)
     last_name = models.CharField(max_length=50,null=True,blank=True)
+    # email = models.EmailField(max_length=170,null=True)
     location = models.CharField(max_length=50,null=True,blank=True)
     url = models.CharField(max_length=80,null=True,blank=True)
     profile_info = models.TextField(max_length=150,null=True,blank=True)
@@ -33,7 +37,7 @@ class Profile(models.Model):
 
         if self.picture:
             pic = Image.open(self.picture.path)
-            pic.thumnail(SIZE,Image.LANCZOS)
+            pic.thumbnail(SIZE,Image.LANCZOS)
             pic.save(self.picture.path)
     def __str__(self):
         return self.user.username

@@ -1,7 +1,10 @@
 from django import forms
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+User = get_user_model()
 from django.core.exceptions import ValidationError
 from authy.models import Profile
+from django.conf import settings 
 
 def ForbiddenUsers(value):
     forbbidden_users = ['admin','css','js','authenticate','login','logout','root','adminstraitor',
@@ -52,13 +55,27 @@ class SignupForm(forms.ModelForm):
 	    return self.cleaned_data
 
 class EditProfileForm(forms.ModelForm):
-	picture = forms.ImageField(required=False)
-	first_name = forms.CharField(widget=forms.TextInput(), max_length=50, required=False)
-	last_name = forms.CharField(widget=forms.TextInput(), max_length=50, required=False)
-	location = forms.CharField(widget=forms.TextInput(), max_length=25, required=False)
-	url = forms.CharField(widget=forms.TextInput(), max_length=100, required=False)
-	profile_info = forms.CharField(widget=forms.TextInput(), max_length=150, required=False)
+    picture = forms.ImageField(required=False)
+    # first_name = forms.CharField(widget=forms.TextInput(), max_length=50, required=False)
+    # last_name = forms.CharField(widget=forms.TextInput(), max_length=50, required=False)
+    location = forms.CharField(widget=forms.TextInput(), max_length=25, required=False)
+    url = forms.CharField(widget=forms.TextInput(), max_length=100, required=False)
+    profile_info = forms.CharField(widget=forms.TextInput(), max_length=150, required=False)
 
-	class Meta:
-		model = Profile
-		fields = ('picture', 'first_name', 'last_name', 'location', 'url', 'profile_info')
+    class Meta:
+	    model = Profile
+		# fields = ('picture', 'first_name', 'last_name', 'location', 'url', 'profile_info')
+	    fields = ('picture', 'location', 'url', 'profile_info')
+
+class EditProfileUserForm(forms.ModelForm):
+    email = forms.EmailField(widget=forms.EmailInput(),required=True)
+    class Meta:
+        model = User
+        fields = (
+                 'email',
+                 'first_name',
+                 'last_name'
+            )
+    # def __init__(self,*args,**kwargs):
+    #     super(EditProfileUserForm, self).__init__(*args, **kwargs)
+    #     self.fields['email'].validators.append(UniqueEmail)
